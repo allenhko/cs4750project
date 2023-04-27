@@ -154,8 +154,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
       <?php $followed = isset($restaurant['Rname']) && $restaurant['Rname'] == selectFollows($_SESSION["username"]);?>
       <td>
       <form action="simpleform.php" method ="post">
-        <input type="submit" name="actionBtn" value="<?php if ($followed) echo "Follow"; else echo "Unfollow";?>" class = "btn btn-dark"/>
-        <input type="hidden" name="<?php if ($followed) echo "followRestaurant"; else echo "unfollowRestaurant";?>" value="<?php echo $restaurant['Rname']; ?>"/>
+        <input type="submit" name="actionBtn" value="<?php if ($followed) echo "Unfollow"; else echo "Follow";?>" class = "btn btn-dark"/>
+        <input type="hidden" name="<?php if ($followed) echo "unFollowRestaurant"; else echo "followRestaurant";?>" value="<?php echo $restaurant['Rname']; ?>"/>
       </form>
       </td>
   </tr>
