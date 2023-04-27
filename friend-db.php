@@ -43,6 +43,44 @@ function selectFood($food_to)
     $statement->closeCursor();
     return $results;
 }
+function selectUser($id)
+{
+    global $db;
+    $query = "select * from user where computing_id=:id";
+    $statement = $db ->prepare($query);
+    $statement->bindValue(':id', $id);
+    $statement->execute();
+    $results = $statement->fetchAll();
+    $statement->closeCursor();
+    return $results;
+}
+
+function getPW($id)
+{
+    global $db;
+    $query = "select password from user where computing_id=:id";
+    $statement = $db ->prepare($query);
+    $statement->bindValue(':id', $id);
+    $statement->execute();
+    $result= $statement->fetchAll();
+    $statement->closeCursor();
+    return $result;
+}
+function addUser($id, $email, $fn,$ln,$pw,$sy,$age) {
+    global $db;
+    $query = "insert into user value(:id, :email, :fn, :ln, :pw, :sy, :age)";
+    $statement = $db->prepare($query);
+    $statement->bindValue(':id', $id);
+    $statement->bindValue(':email', $email);
+    $statement->bindValue(':fn', $fn);
+    $statement->bindValue(':ln', $ln);
+    $statement->bindValue(':pw', $pw);
+    $statement->bindValue(':sy', $sy);
+    $statement->bindValue(':age', $age);
+    $statement->execute();
+    $statement->closeCursor();
+
+}
 
 function deleteRestaurant($Restaurant_to_delete)
 {

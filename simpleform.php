@@ -72,6 +72,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 
 <body>
 <div class="container">
+  <a href="logout.php" class="btn btn-danger ml-3">Sign Out of Your Account</a>
   <h1>Restaurant List</h1> 
   <form name="mainForm" action="simpleform.php" method="post">   
   <div class="row mb-3 mx-3">
@@ -121,7 +122,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
      <td>
       <form action="simpleform.php" method ="post">
         <input type="submit" name="actionBtn" value="Update" class = "btn btn-dark"/>
-        <input type="hidden" name="Restaurant_to_update" value="<?php echo $running_variable['Rname']; ?>"/>
+        <input type="hidden" name="friend_to_update" value="<?php echo $running_variable['Rname']; ?>"/>
       </form>
       </td>
       <td>

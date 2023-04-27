@@ -2,7 +2,7 @@
 require("connect-db.php");
 require("friend-db.php");
 
-$food =  selectFood($_POST['food_to']);
+
 
 $friend_info_to_update = null;
 if ($_SERVER['REQUEST_METHOD'] == 'POST')
@@ -18,6 +18,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
     deleteFood($_POST['Food_to_delete'],$_POST['name']);
     $food = selectFood($_POST['Food_to_delete']);
   }
+}
+else{
+  $food =  selectFood($_POST['food_to']);
 }
 ?>
 
