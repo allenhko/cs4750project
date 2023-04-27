@@ -20,12 +20,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
   }
   else if (!empty($_POST['actionBtn']) && ($_POST['actionBtn'] == "Update"))
   {
-    $friend_info_to_update = getFriendByName($_POST['friend_to_update']);
+    $friend_info_to_update = getRestaurantByName($_POST['Restaurant_to_update']);
   }
 
   if (!empty($_POST['actionBtn']) && ($_POST['actionBtn'] == "Confirm Update"))
   {
-    updateFriend($_POST['name'], $_POST['major'], $_POST['year']);
+    updateRestaurant($_POST['Rname'], $_POST['address'], $_POST['type']);
     $friends = selectAllRestaurant();
   }
 }
@@ -122,7 +122,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
      <td>
       <form action="simpleform.php" method ="post">
         <input type="submit" name="actionBtn" value="Update" class = "btn btn-dark"/>
-        <input type="hidden" name="friend_to_update" value="<?php echo $running_variable['Rname']; ?>"/>
+        <input type="hidden" name="Restaurant_to_update" value="<?php echo $running_variable['Rname']; ?>"/>
       </form>
       </td>
       <td>

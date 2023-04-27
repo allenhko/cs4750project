@@ -3,8 +3,11 @@ require("connect-db.php");
 require("friend-db.php");
 
 
+if (!($_POST['actionBtn'] == "Add Food") && !($_POST['actionBtn'] == "Delete") && !($_POST['actionBtn'] == "Update") && !($_POST['actionBtn'] == "Confirm Update")) {
+  $food = selectFood($_POST['food_to']);
+}
 
-$friend_info_to_update = null;
+$food_info_to_update = null;
 if ($_SERVER['REQUEST_METHOD'] == 'POST')
 {
   if (!empty($_POST['actionBtn']) && ($_POST['actionBtn'] == "Add Food"))
@@ -18,10 +21,21 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
     deleteFood($_POST['Food_to_delete'],$_POST['name']);
     $food = selectFood($_POST['Food_to_delete']);
   }
+  else if (!empty($_POST['actionBtn']) && ($_POST['actionBtn'] == "Update"))
+  {
+    $food_info_to_update = getFoodByName($_POST['food_to_update'], $_POST['name']);
+    $food = selectFood($_POST['food_to_update']);
+  }
+
+  if (!empty($_POST['actionBtn']) && ($_POST['actionBtn'] == "Confirm Update"))
+  {
+    updateFood($_POST['Rname'], $_POST['name'], $_POST['price']);
+    $food =  selectFood($_POST['Rname']);
+  }
 }
-else{
-  $food =  selectFood($_POST['food_to']);
-}
+// else{
+//   $food =  selectFood($_POST['food_to']);
+// }
 ?>
 
 <!-- 1. create HTML5 doctype -->
@@ -70,19 +84,19 @@ else{
   <div class="row mb-3 mx-3">
     Restaurant Name:
     <input type="text" class="form-control" name="Rname" required
-           value="<?php if ($friend_info_to_update != null) echo $friend_info_to_update['Rname']; ?>"
+           value="<?php if ($food_info_to_update != null) echo $food_info_to_update['Rname']; ?>"
     />        
   </div>
   <div class="row mb-3 mx-3">
     Food name:
     <input type="text" class="form-control" name="name" required
-    value="<?php if ($friend_info_to_update != null) echo $friend_info_to_update['name']; ?>"
+    value="<?php if ($food_info_to_update != null) echo $food_info_to_update['Name']; ?>"
     />        
   </div>
   <div class="row mb-3 mx-3">
     price:
     <input type="text" class="form-control" name="price" required
-    value="<?php if ($friend_info_to_update != null) echo $friend_info_to_update['prices']; ?>"
+    value="<?php if ($food_info_to_update != null) echo $food_info_to_update['price']; ?>"
     />        
   </div>
   <div class="row mb-3 mx-3">
@@ -111,9 +125,10 @@ else{
      <td><?php echo $running_variable['Name']; ?></td>        
      <td><?php echo $running_variable['price']; ?></td>
      <td>
-      <form action="simpleform.php" method ="post">
+      <form action="food.php" method ="post">
         <input type="submit" name="actionBtn" value="Update" class = "btn btn-dark"/>
-        <input type="hidden" name="friend_to_update" value="<?php echo $running_variable['Rname']; ?>"/>
+        <input type="hidden" name="food_to_update" value="<?php echo $running_variable['Rname']; ?>"/>
+        <input type="hidden" name="name" value="<?php echo $running_variable['Name']; ?>"/>
       </form>
       </td>
       <td>

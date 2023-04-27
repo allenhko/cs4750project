@@ -32,6 +32,7 @@ function selectAllRestaurant()
     $statement->closeCursor();
     return $results;
 }
+
 function selectFood($food_to)
 {
     global $db;
@@ -101,6 +102,56 @@ function deleteFood($Food_to_delete, $name)
     $statement->bindValue(':name', $name);
     $statement->execute();
     $statement->closeCursor();
+}
+
+
+function updateRestaurant($Rname, $address, $type) {
+    global $db;
+    $query = "update Restaurant set address=:address, type=:type where Rname=:Rname";
+    $statement = $db->prepare($query);
+    $statement->bindValue(':Rname', $Rname);
+    $statement->bindValue(':address', $address);
+    $statement->bindValue(':type', $type);
+    $statement->execute();
+    $statement->closeCursor();
+
+}
+
+function updateFood($Rname, $name, $price) {
+    global $db;
+    $query = "update Food_price set price=:price where Rname=:Rname and name=:name";
+    $statement = $db->prepare($query);
+    $statement->bindValue(':Rname', $Rname);
+    $statement->bindValue(':name', $name);
+    $statement->bindValue(':price', $price);
+    $statement->execute();
+    $statement->closeCursor();
+
+}
+
+function getRestaurantByName($Rname)
+{
+    global $db;
+    $query = "select * from Restaurant where Rname=:Rname";
+    $statement = $db ->prepare($query);
+    $statement->bindValue(':Rname', $Rname);
+    $statement->execute();
+    $results = $statement->fetch();
+    $statement->closeCursor();
+    return $results;
+}
+
+function getFoodByName($Rname, $name)
+{
+    global $db;
+    $query = "select * from Food_price where Rname=:Rname and name=:name";
+    $statement = $db ->prepare($query);
+    $statement->bindValue(':Rname', $Rname);
+    $statement->bindValue(':name', $name);
+    $statement->execute();
+    $results = $statement->fetch();
+    $statement->closeCursor();
+    return $results;
 }
 
 
