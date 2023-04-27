@@ -20,12 +20,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
   }
   else if (!empty($_POST['actionBtn']) && ($_POST['actionBtn'] == "Update"))
   {
-    $friend_info_to_update = getFriendByName($_POST['friend_to_update']);
+    $friend_info_to_update = getRestaurantByName($_POST['Restaurant_to_update']);
   }
 
   if (!empty($_POST['actionBtn']) && ($_POST['actionBtn'] == "Confirm Update"))
   {
-    updateFriend($_POST['name'], $_POST['major'], $_POST['year']);
+    updateRestaurant($_POST['Rname'], $_POST['address'], $_POST['type']);
     $friends = selectAllRestaurant();
   }
 }
@@ -72,6 +72,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 
 <body>
 <div class="container">
+  <a href="logout.php" class="btn btn-danger ml-3">Sign Out of Your Account</a>
   <h1>Restaurant List</h1> 
   <form name="mainForm" action="simpleform.php" method="post">   
   <div class="row mb-3 mx-3">
