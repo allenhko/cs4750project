@@ -22,6 +22,17 @@ function addFood($Rname, $name, $price) {
 
 }
 
+function followRestaurant($restaurant_to_follow, $computing_ID)
+{
+    global $db;
+    $query = "insert into Follows value(:Rname, :computing_ID)";
+    $statement = $db->prepare($query);
+    $statement->bindValue(':Rname', $restaurant_to_follow);
+    $statement->bindValue(':computing_ID', $computing_ID);
+    $statement->execute();
+    $statement->closeCursor();
+}
+
 function selectAllRestaurant()
 {
     global $db;
@@ -83,6 +94,17 @@ function addUser($id, $email, $fn,$ln,$pw,$sy,$age) {
 
 }
 
+function selectFollows($computing_ID){
+    global $db;
+    $query = "select Rname from Follows where computing_ID=:computing_ID";
+    $statement = $db ->prepare($query);
+    $statement->bindValue(":computing_ID", $computing_ID);
+    $statement->execute();
+    $results = $statement->fetchAll();
+    $statement->closeCursor();
+    return $results;
+}
+
 function deleteRestaurant($Restaurant_to_delete)
 {
     global $db;
@@ -104,6 +126,16 @@ function deleteFood($Food_to_delete, $name)
     $statement->closeCursor();
 }
 
+function unfollowRestaurant($restaurant_to_unfollow, $computing_ID)
+{
+    global $db;
+    $query = "delete from Follows where Rname=:Rname and computing_ID=:computingID";
+    $statement = $db ->prepare($query);
+    $statement->bindValue(':Rname', $restaurant_to_unfollow);
+    $statement->bindValue(':computingID', $computing_ID);
+    $statement->execute();
+    $statement->closeCursor();
+}
 
 function updateRestaurant($Rname, $address, $type) {
     global $db;

@@ -1,9 +1,10 @@
 <?php
+session_start();
+
 require("connect-db.php");
 require("friend-db.php");
 
 $friends =  selectAllRestaurant();
-
 $friend_info_to_update = null;
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST')
@@ -27,6 +28,18 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
   {
     updateRestaurant($_POST['Rname'], $_POST['address'], $_POST['type']);
     $friends = selectAllRestaurant();
+  }
+
+  if (!empty($_POST['actionBtn']) && ($_POST['actionBtn'] == "Follow"))
+  {
+    if(isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true)
+      followRestaurant($_POST['followRestaurant'], $_SESSION["username"]);
+  }
+
+  if (!empty($_POST['actionBtn']) && ($_POST['actionBtn'] == "Unfollow"))
+  {
+    if(isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true)
+      unfollowRestaurant($_POST['unfollowRestaurant'], $_SESSION["username"]);
   }
 }
 ?>
@@ -100,10 +113,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
   <input type="submit" class="btn btn-dark" name="actionBtn" value="Confirm Update" title = "click to confirm update"/>
   </div>  
   
+  
   </form>
   
 <div class="row justify-content-center">  
-<table class="w3-table w3-bordered w3-card-4 center" style="width:70%">
+<table class="w3-table w3-bordered w3-card-4 center" style="width:150%">
   <thead>
   <tr style="background-color:#B0B0B0">
     <th width="30%">Name        
@@ -114,29 +128,36 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
     <th width="30%">Food
   </tr>
   </thead>
-<?php foreach ($friends as $running_variable): ?>
+<?php foreach ($friends as $restaurant): ?>
   <tr>
-     <td><?php echo $running_variable['Rname']; ?></td>
-     <td><?php echo $running_variable['address']; ?></td>        
-     <td><?php echo $running_variable['type']; ?></td>
+     <td><?php echo $restaurant['Rname']; ?></td>
+     <td><?php echo $restaurant['address']; ?></td>        
+     <td><?php echo $restaurant['type']; ?></td>
      <td>
       <form action="simpleform.php" method ="post">
         <input type="submit" name="actionBtn" value="Update" class = "btn btn-dark"/>
-        <input type="hidden" name="Restaurant_to_update" value="<?php echo $running_variable['Rname']; ?>"/>
+        <input type="hidden" name="Restaurant_to_update" value="<?php echo $restaurant['Rname']; ?>"/>
       </form>
       </td>
       <td>
       <form action="simpleform.php" method ="post">
         <input type="submit" name="actionBtn" value="Delete" class = "btn btn-danger"/>
-        <input type="hidden" name="Restaurant_to_delete" value="<?php echo $running_variable['Rname']; ?>"/>
+        <input type="hidden" name="Restaurant_to_delete" value="<?php echo $restaurant['Rname']; ?>"/>
       </form>
       </td>  
       <td>
       <form action="food.php" method ="post">
-        <input type="submit" name="actionBtn" value="food" class = "btn btn-dark"/>
-        <input type="hidden" name="food_to" value="<?php echo $running_variable['Rname']; ?>"/>
+        <input type="submit" name="actionBtn" value="Food" class = "btn btn-dark"/>
+        <input type="hidden" name="food_to" value="<?php echo $restaurant['Rname']; ?>"/>
       </form>
-      </td>                
+      </td>    
+      <?php $followed = isset($restaurant['Rname']) && $restaurant['Rname'] == selectFollows($_SESSION["username"]);?>
+      <td>
+      <form action="simpleform.php" method ="post">
+        <input type="submit" name="actionBtn" value="<?php if ($followed) echo "Follow"; else echo "Unfollow";?>" class = "btn btn-dark"/>
+        <input type="hidden" name="<?php if ($followed) echo "followRestaurant"; else echo "unfollowRestaurant";?>" value="<?php echo $restaurant['Rname']; ?>"/>
+      </form>
+      </td>
   </tr>
 <?php endforeach; ?>
 </table>
