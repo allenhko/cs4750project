@@ -55,6 +55,7 @@ function selectFood($food_to)
     $statement->closeCursor();
     return $results;
 }
+
 function selectUser($id)
 {
     global $db;
@@ -186,5 +187,127 @@ function getFoodByName($Rname, $name)
     return $results;
 }
 
+function selectAllReview($Rname)
+{
+    global $db;
+    $query = "select * from Review where Rname=:Rname";
+    $statement = $db ->prepare($query);
+    $statement->bindValue(':Rname', $Rname);
+    $statement->execute();
+    $results = $statement->fetchAll();
+    $statement->closeCursor();
+    return $results;
+}
 
+function addReview($Rname, $Text, $Rating, $Date, $ReviewID, $ReviewType) {
+    global $db;
+    $query = "insert into Review value(:Rname, :ReviewID, :Rating, :Text, :Date, :ReviewType)";
+    $statement = $db->prepare($query);
+    $statement->bindValue(':Rname', $Rname);
+    $statement->bindValue(':Text', $Text);
+    $statement->bindValue(':Rating', $Rating);
+    $statement->bindValue(':Date', $Date);
+    $statement->bindValue(':ReviewID', $ReviewID);
+    $statement->bindValue(':ReviewType', $ReviewType);
+    $statement->execute();
+    $statement->closeCursor();
+
+}
+
+function deleteReview($ReviewID)
+{
+    global $db;
+    $query = "delete from Review where ReviewID=:ReviewID";
+    $statement = $db ->prepare($query);
+    $statement->bindValue(':ReviewID', $ReviewID);
+    $statement->execute();
+    $statement->closeCursor();
+}
+
+function updateReview($Rname, $Text, $Rating, $Date, $ReviewID, $ReviewType) {
+    global $db;
+    $query = "update Review set Rname=:Rname, ReviewID=:ReviewID, Ratings=:Rating, Text=:Text, Date=:Date, ReviewType=:ReviewType where ReviewID=:ReviewID";
+    $statement = $db->prepare($query);
+    $statement->bindValue(':Text', $Text);
+    $statement->bindValue(':Rating', $Rating);
+    $statement->bindValue(':Rname', $Rname);
+    $statement->bindValue(':Date', $Date);
+    $statement->bindValue(':ReviewID', $ReviewID);
+    $statement->bindValue(':ReviewType', $ReviewType);
+    $statement->execute();
+    $statement->closeCursor();
+
+}
+
+function getReviewByName($ReviewID)
+{
+    global $db;
+    $query = "select * from Review where ReviewID=:ReviewID";
+    $statement = $db ->prepare($query);
+    $statement->bindValue(':ReviewID', $ReviewID);
+    $statement->execute();
+    $results = $statement->fetch();
+    $statement->closeCursor();
+    return $results;
+}
+
+
+
+function selectAllFoodReview($Name)
+{
+    global $db;
+    $query = "select * from food_review where Name=:Name";
+    $statement = $db ->prepare($query);
+    $statement->bindValue(':Name', $Name);
+    $statement->execute();
+    $results = $statement->fetchAll();
+    $statement->closeCursor();
+    return $results;
+}
+
+function addFoodReview($Name, $review_id, $taste_score) {
+    global $db;
+    $query = "insert into food_review value(:review_id, :Name, :taste_score)";
+    $statement = $db->prepare($query);
+    $statement->bindValue(':Name', $Name);
+    $statement->bindValue(':review_id', $review_id);
+    $statement->bindValue(':taste_score', $taste_score);
+    $statement->execute();
+    $statement->closeCursor();
+
+}
+
+function deleteFoodReview($review_id)
+{
+    global $db;
+    $query = "delete from food_review where review_id=:review_id";
+    $statement = $db ->prepare($query);
+    $statement->bindValue(':review_id', $review_id);
+    $statement->execute();
+    $statement->closeCursor();
+}
+
+function updateFoodReview($Name, $review_id, $taste_score) {
+    global $db;
+    $query = "update food_review set review_id=:review_id, Name=:Name, taste_score=:taste_score where review_id=:review_id";
+    $statement = $db->prepare($query);
+    $statement->bindValue(':Name', $Name);
+    $statement->bindValue(':review_id', $review_id);
+    $statement->bindValue(':taste_score', $taste_score);
+    $statement->execute();
+    $statement->closeCursor();
+
+}
+
+function getFoodReviewByName($review_id)
+{
+    global $db;
+    $query = "select * from food_review where review_id=:review_id";
+    $statement = $db ->prepare($query);
+    $statement->bindValue(':review_id', $review_id);
+    $statement->execute();
+    $results = $statement->fetch();
+    $statement->closeCursor();
+    return $results;
+}
 ?>

@@ -126,6 +126,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
     <th width="30%">Update
     <th width="30%">Delete 
     <th width="30%">Food
+    <th width="30%">Follow
+    <th width="30%">Review  
   </tr>
   </thead>
 <?php foreach ($friends as $restaurant): ?>
@@ -158,6 +160,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
         <input type="hidden" name="<?php if ($followed) echo "unFollowRestaurant"; else echo "followRestaurant";?>" value="<?php echo $restaurant['Rname']; ?>"/>
       </form>
       </td>
+      <td>
+      <form action="restaurant_review.php" method ="post">
+        <input type="submit" name="actionBtn" value="Review" class = "btn btn-primary"/>
+        <input type="hidden" name="Rname" value="<?php echo $restaurant['Rname']; ?>"/>
+      </form>
+      </td> 
   </tr>
 <?php endforeach; ?>
 </table>

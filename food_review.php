@@ -4,38 +4,35 @@ require("friend-db.php");
 
 
 if (!($_POST['actionBtn'] == "Add Food") && !($_POST['actionBtn'] == "Delete") && !($_POST['actionBtn'] == "Update") && !($_POST['actionBtn'] == "Confirm Update")) {
-  $food = selectFood($_POST['food_to']);
+  $food = selectAllFoodReview($_POST['Name']);
 }
 
 $food_info_to_update = null;
 if ($_SERVER['REQUEST_METHOD'] == 'POST')
 {
-  if (!empty($_POST['actionBtn']) && ($_POST['actionBtn'] == "Add Food"))
+  if (!empty($_POST['actionBtn']) && ($_POST['actionBtn'] == "Add Review"))
   {
-    $previous=$_POST['Rname'];
-    addFood($previous, $_POST['name'], $_POST['price']);
-    $food = selectFood($previous);
+    $previous=$_POST['Name'];
+    addFoodReview($previous, $_POST['review_id'], $_POST['taste_score']);
+    $food = selectAllFoodReview($previous);
   }
   else if (!empty($_POST['actionBtn']) && ($_POST['actionBtn'] == "Delete"))
   {
-    deleteFood($_POST['Food_to_delete'],$_POST['name']);
-    $food = selectFood($_POST['Food_to_delete']);
+    deleteFoodReview($_POST['review_id']);
+    $food = selectAllFoodReview($_POST['Review_to_delete']);
   }
   else if (!empty($_POST['actionBtn']) && ($_POST['actionBtn'] == "Update"))
   {
-    $food_info_to_update = getFoodByName($_POST['food_to_update'], $_POST['name']);
-    $food = selectFood($_POST['food_to_update']);
+    $food_info_to_update = getFoodReviewByName($_POST['review_id']);
+    $food = selectAllFoodReview($_POST['Review_to_update']);
   }
 
   if (!empty($_POST['actionBtn']) && ($_POST['actionBtn'] == "Confirm Update"))
   {
-    updateFood($_POST['Rname'], $_POST['name'], $_POST['price']);
-    $food =  selectFood($_POST['Rname']);
+    updateFoodReview($_POST['Name'], $_POST['review_id'], $_POST['taste_score']);
+    $food = selectAllFoodReview($_POST['Name']);
   }
 }
-// else{
-//   $food =  selectFood($_POST['food_to']);
-// }
 ?>
 
 <!-- 1. create HTML5 doctype -->
@@ -79,28 +76,28 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 
 <body>
 <div class="container">
-  <h1>Food List</h1> 
-  <form name="mainForm" action="food.php" method="post">   
+  <h1>Food Review List</h1> 
+  <form name="mainForm" action="food_review.php" method="post">   
   <div class="row mb-3 mx-3">
-    Restaurant Name:
-    <input type="text" class="form-control" name="Rname" required
-           value="<?php if ($food_info_to_update != null) echo $food_info_to_update['Rname']; ?>"
+    Review ID:
+    <input type="text" class="form-control" name="review_id" required
+           value="<?php if ($food_info_to_update != null) echo $food_info_to_update['review_id'];?>"
+    />     
+  </div>
+  <div class="row mb-3 mx-3">
+    Food Name:
+    <input type="text" class="form-control" name="Name" required
+           value="<?php if ($food_info_to_update != null) echo $food_info_to_update['Name'];?>"
+    />     
+  </div>
+  <div class="row mb-3 mx-3">
+    Taste Score:
+    <input type="text" class="form-control" name="taste_score" required
+    value="<?php if ($food_info_to_update != null) echo $food_info_to_update['taste_score']; ?>"
     />        
   </div>
   <div class="row mb-3 mx-3">
-    Food name:
-    <input type="text" class="form-control" name="name" required
-    value="<?php if ($food_info_to_update != null) echo $food_info_to_update['Name']; ?>"
-    />        
-  </div>
-  <div class="row mb-3 mx-3">
-    price:
-    <input type="text" class="form-control" name="price" required
-    value="<?php if ($food_info_to_update != null) echo $food_info_to_update['price']; ?>"
-    />        
-  </div>
-  <div class="row mb-3 mx-3">
-  <input type="submit" class="btn btn-primary" name="actionBtn" value="Add Food" title = "click to insert Restaurant"/>
+  <input type="submit" class="btn btn-primary" name="actionBtn" value="Add Review" title = "click to insert Restaurant"/>
   </div>
   <div class="row mb-3 mx-3">
   <input type="submit" class="btn btn-dark" name="actionBtn" value="Confirm Update" title = "click to confirm update"/>
@@ -112,48 +109,37 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 <table class="w3-table w3-bordered w3-card-4 center" style="width:70%">
   <thead>
   <tr style="background-color:#B0B0B0">
-    <th width="30%">Restaurant      
-    <th width="30%">name   
-    <th width="30%">price
+    <th width="30%">Review ID         
+    <th width="30%">Food name
+    <th width="30%">taste score 
     <th width="30%">Update
-    <th width="30%">Delete
-    <th width="30%">Review 
+    <th width="30%">Delete 
   </tr>
   </thead>
 <?php foreach ($food as $running_variable): ?>
   <tr>
-     <td><?php echo $running_variable['Rname']; ?></td>
+     <td><?php echo $running_variable['review_id']; ?></td>
      <td><?php echo $running_variable['Name']; ?></td>        
-     <td><?php echo $running_variable['price']; ?></td>
+     <td><?php echo $running_variable['taste_score']; ?></td>
      <td>
-      <form action="food.php" method ="post">
+      <form action="food_review.php" method ="post">
         <input type="submit" name="actionBtn" value="Update" class = "btn btn-dark"/>
-        <input type="hidden" name="food_to_update" value="<?php echo $running_variable['Rname']; ?>"/>
-        <input type="hidden" name="name" value="<?php echo $running_variable['Name']; ?>"/>
+        <input type="hidden" name="Review_to_update" value="<?php echo $running_variable['Name']; ?>"/>
+        <input type="hidden" name="review_id" value="<?php echo $running_variable['review_id']; ?>"/>
       </form>
       </td>
       <td>
-      <form action="food.php" method ="post">
+      <form action="food_review.php" method ="post">
         <input type="submit" name="actionBtn" value="Delete" class = "btn btn-danger"/>
-        <input type="hidden" name="Food_to_delete" value="<?php echo $running_variable['Rname']; ?>"/>
-        <input type="hidden" name="name" value="<?php echo $running_variable['Name']; ?>"/>
+        <input type="hidden" name="Review_to_delete" value="<?php echo $running_variable['Name']; ?>"/>
+        <input type="hidden" name="review_id" value="<?php echo $running_variable['review_id']; ?>"/>
       </form>
       </td>  
-      <td>
-      <form action="food_review.php" method ="post">
-        <input type="submit" name="actionBtn" value="Review" class = "btn btn-primary"/>
-        <input type="hidden" name="Name" value="<?php echo $running_variable['Name']; ?>"/>
-      </form>
-      </td> 
             
   </tr>
 <?php endforeach; ?>
 </table>
 </div>   
-
-
-
-
 
   <!-- CDN for JS bootstrap -->
   <!-- you may also use JS bootstrap to make the page dynamic -->
