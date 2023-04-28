@@ -130,6 +130,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
         <th width="30%">Update
         <th width="30%">Delete 
         <th width="30%">Food
+        <th width="30%">Follow
+        <th width="30%">Review
       </tr>
       </thead>
       <?php foreach ($followedRestaurants as $restaurant): ?>
