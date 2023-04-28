@@ -5,6 +5,7 @@ require("connect-db.php");
 require("friend-db.php");
 
 $friends =  selectAllRestaurant();
+$followedRestaurants = selectFollows($_SESSION['username']);
 $friend_info_to_update = null;
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST')
@@ -34,12 +35,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
   {
     if(isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true)
       followRestaurant($_POST['followRestaurant'], $_SESSION["username"]);
+      $friends = selectAllRestaurant();
+      $followedRestaurants = selectFollows($_SESSION['username']);
   }
 
   if (!empty($_POST['actionBtn']) && ($_POST['actionBtn'] == "Unfollow"))
   {
     if(isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true)
       unfollowRestaurant($_POST['unfollowRestaurant'], $_SESSION["username"]);
+      $friends = selectAllRestaurant();
+      $followedRestaurants = selectFollows($_SESSION['username']);
   }
 }
 ?>

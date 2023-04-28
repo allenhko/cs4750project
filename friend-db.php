@@ -97,13 +97,30 @@ function addUser($id, $email, $fn,$ln,$pw,$sy,$age) {
 
 function selectFollows($computing_ID){
     global $db;
-    $query = "select Rname from Follows where computing_ID=:computing_ID";
+    $query = "select Rname, address, type from Restaurant natural join Follows where computing_ID=:computing_ID";
     $statement = $db ->prepare($query);
     $statement->bindValue(":computing_ID", $computing_ID);
     $statement->execute();
-    $results = $statement->fetchAll();
+    $result= $statement->fetchAll();
     $statement->closeCursor();
-    return $results;
+    return $result;
+}
+
+function checkIfUserFollows($computing_ID, $Rname){
+    global $db;
+    $query = "select * from Follows where computing_ID=:computing_ID and Rname=:Rname";
+    $statement = $db ->prepare($query);
+    $statement->bindValue(":computing_ID", $computing_ID);
+    $statement->bindValue(":Rname", $Rname);
+    $statement->execute();
+    $exists = 0;
+    if($Rname = $statement->fetch(PDO::FETCH_ASSOC)){
+        $exists = 1;
+    }else{
+        $exists = 0;
+    }
+    $statement->closeCursor();
+    return $exists;
 }
 
 function deleteRestaurant($Restaurant_to_delete)
