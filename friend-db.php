@@ -32,7 +32,31 @@ function followRestaurant($restaurant_to_follow, $computing_ID)
     $statement->execute();
     $statement->closeCursor();
 }
+function selectFriends($id)
+{
+    global $db;
+    $query = "select * from Friends_to where computing_ID=:id";
+    $statement = $db ->prepare($query);
+    $statement->bindValue(':id', $id);
+    $statement->execute();
+    $results = $statement->fetchAll();
+    $statement->closeCursor();
+    return $results;
 
+}
+function checkFriends($id1,$id2)
+{
+    global $db;
+    $query = "select * from Friends_to where computing_ID=:id1 AND Friends_computing_ID=:id2";
+    $statement = $db ->prepare($query);
+    $statement->bindValue(':id1', $id1);
+    $statement->bindValue(':id2', $id2);
+    $statement->execute();
+    $results = $statement->fetchAll();
+    $statement->closeCursor();
+    return $results;
+
+}
 function selectAllRestaurant()
 {
     global $db;
@@ -57,6 +81,18 @@ function selectFood($food_to)
 }
 
 function selectUser($id)
+{
+    global $db;
+    $query = "select * from user where computing_id=:id";
+    $statement = $db ->prepare($query);
+    $statement->bindValue(':id', $id);
+    $statement->execute();
+    $results = $statement->fetchAll();
+    $statement->closeCursor();
+    return $results;
+}
+
+function searchUser($id)
 {
     global $db;
     $query = "select * from user where computing_id=:id";
@@ -93,6 +129,26 @@ function addUser($id, $email, $fn,$ln,$pw,$sy,$age) {
     $statement->execute();
     $statement->closeCursor();
 
+}
+
+function addFriends($id1, $id2) {
+    global $db;
+    $query = "insert into Friends_to value(:id1, :id2)";
+    $statement = $db->prepare($query);
+    $statement->bindValue(':id1', $id1);
+    $statement->bindValue(':id2', $id2);
+    $statement->execute();
+    $statement->closeCursor();
+}
+function deleteFriends($id1,$id2)
+{
+    global $db;
+    $query = "delete from Friends_to where computing_ID=:id1 AND Friends_computing_ID=:id2";
+    $statement = $db ->prepare($query);
+    $statement->bindValue(':id1', $id1);
+    $statement->bindValue(':id2', $id2);
+    $statement->execute();
+    $statement->closeCursor();
 }
 
 function selectFollows($computing_ID){
