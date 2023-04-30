@@ -90,6 +90,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 
 <body>
 <div class="container">
+  <button class="btn btn-primary" onclick="event.preventDefault(); window.location.href='friends.php'">Friends</button>
   <a href="logout.php" class="btn btn-danger ml-3">Sign Out of Your Account</a>
   <h1>Restaurant List</h1> 
   <form name="mainForm" action="simpleform.php" method="post">   

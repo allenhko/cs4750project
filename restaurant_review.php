@@ -78,7 +78,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 <body>
 <div class="container">
   <h1>Restaurant Reviews for <?php echo $_POST['Rname']?></h1> 
-  <button onclick="event.preventDefault(); window.location.href='simpleform.php'">Home</button>
+  <button class="btn btn-primary" onclick="event.preventDefault(); window.location.href='simpleform.php'">Home</button>
 
   <form name="mainForm" action="restaurant_review.php" method="post">   
   <div class="row mb-3 mx-3">

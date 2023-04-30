@@ -90,9 +90,10 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 
 <body>
 <div class="container">
+<button class="btn btn-primary" onclick="event.preventDefault(); window.location.href='simpleform.php'">Home</button>
 <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">  
   <div class="row mb-3 mx-3">
-    <label> UserName </label>
+    <label> Username </label>
     <input type="text" name="User_Name" class="form-control <?php echo (!empty($username_err)) ? 'is-invalid' : ''; ?>" value="<?php echo $username; ?>">
     <span class="invalid-feedback"><?php echo $username_err; ?></span>
   </div>
@@ -143,7 +144,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     <th width="30%">Add Friend
   </tr>
   </thead>
-<?php foreach ($friendsS as $running_variable): ?>
+<?php foreach ($friends as $running_variable): ?>
   <tr>
      <td><?php echo $running_variable['computing_id']; ?></td>
       <td>
