@@ -3,6 +3,7 @@ require("connect-db.php");
 require("friend-db.php");
 
 
+
 if (!($_POST['actionBtn'] == "Add Food") && !($_POST['actionBtn'] == "Delete") && !($_POST['actionBtn'] == "Update") && !($_POST['actionBtn'] == "Confirm Update")) {
   $food = selectFood($_POST['food_to']);
 }
@@ -36,6 +37,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 // else{
 //   $food =  selectFood($_POST['food_to']);
 // }
+
 ?>
 
 <!-- 1. create HTML5 doctype -->
@@ -79,7 +81,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 
 <body>
 <div class="container">
-  <h1>Food List</h1> 
+  <h1>Food List for <?php echo $_POST['Rname']?></h1> 
+  <button onclick="event.preventDefault(); window.location.href='simpleform.php'">Home</button>
   <form name="mainForm" action="food.php" method="post">   
   <div class="row mb-3 mx-3">
     Restaurant Name:
