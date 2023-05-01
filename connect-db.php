@@ -44,10 +44,10 @@
 ////////////////////////////////////////////
 
 /** S23, PHP (on GCP, local XAMPP, or CS server) connect to MySQL (on CS server) **/
-$username = 'dy8qp'; 
- $password = 'Ehdrb3569';
+ $username = 'ho8kx_d'; 
+ $password = 'UpsornWinter2023';
  $host = 'mysql01.cs.virginia.edu';
- $dbname = 'dy8qp';
+ $dbname = 'ho8kx';
  $dsn = "mysql:host=$host;dbname=$dbname";
 ////////////////////////////////////////////
 
@@ -87,7 +87,7 @@ try
    $db = new PDO($dsn, $username, $password);
    
    // dispaly a message to let us know that we are connected to the database 
-   echo "<p>You are connected to the database: $dsn</p>";
+   // echo "<p>You are connected to the database: $dsn</p>";
 }
 catch (PDOException $e)     // handle a PDO exception (errors thrown by the PDO library)
 {

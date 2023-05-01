@@ -3,11 +3,6 @@ session_start();
 require("connect-db.php");
 require("friend-db.php");
 
-if(!isset($_SESSION["loggedin"])){
-    header("location: login.php");
-    exit;
-  }
-  
 $friends = selectFriends($_SESSION['username']);
 $friendsS;
 $username_err="";
