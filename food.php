@@ -81,7 +81,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 
 <body>
 <div class="container">
-  <h1>Food List for <?php echo $_POST['Rname']?></h1> 
+  <h1>Food List</h1> 
   <button class="btn btn-primary" onclick="event.preventDefault(); window.location.href='simpleform.php'">Home</button>
   <form name="mainForm" action="food.php" method="post">   
   <div class="row mb-3 mx-3">
