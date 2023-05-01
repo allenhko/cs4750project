@@ -2,10 +2,6 @@
 require("connect-db.php");
 require("friend-db.php");
 
-if(!isset($_SESSION["loggedin"])){
-  header("location: login.php");
-  exit;
-}
 
 if (!($_POST['actionBtn'] == "Add Food") && !($_POST['actionBtn'] == "Delete") && !($_POST['actionBtn'] == "Update") && !($_POST['actionBtn'] == "Confirm Update")) {
   $food = selectAllReview($_POST['Rname']);
@@ -37,6 +33,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
     $food =  selectAllReview($_POST['Rname']);
   }
 }
+
 ?>
 
 <!-- 1. create HTML5 doctype -->
@@ -80,7 +77,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 
 <body>
 <div class="container">
-  <h1>Restaurant Review List</h1> 
+  <h1>Restaurant Reviews</h1> 
+  <button class="btn btn-primary" onclick="event.preventDefault(); window.location.href='simpleform.php'">Home</button>
+
   <form name="mainForm" action="restaurant_review.php" method="post">   
   <div class="row mb-3 mx-3">
     Restaurant Name:
@@ -136,7 +135,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
     <th width="30%">ratings
     <th width="30%">date
     <th width="30%">ID
-    <th width="30%">Type  
     <th width="30%">Update
     <th width="30%">Delete 
   </tr>
